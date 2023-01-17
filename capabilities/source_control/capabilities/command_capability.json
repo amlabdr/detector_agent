@@ -1,0 +1,17 @@
+{
+        "label": "Source control",
+        "endpoint": "/multiverse/qnet/source_alice",
+        "when": "now",
+        "name": "source_alice_control",
+        "parameters": {
+            "Laser": "ON | OFF",
+            "Tec": "ON | OFF",
+            "Laser_current": "[0,10]"
+        },
+        "results": [],
+        "schema": "0123456789012345",
+        "timestamp": "2022-04-21 13:54:10.91",
+        "agentId": "source_alice",
+        "role": "admin",
+        "capability": "command"
+}

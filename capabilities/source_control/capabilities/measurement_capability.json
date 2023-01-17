@@ -1,0 +1,20 @@
+{
+        "label": "Source probe",
+        "endpoint": "/multiverse/qnet/source_alice",
+        "when": "now",
+        "name": "source_alice_probe",
+        "parameters": {},
+        "results": [
+            "timestamp",
+            "is_laser_on",
+            "is_tec_on",
+            "laser_temperature",
+            "laser_current",
+            "forward_voltage"        
+        ],
+        "schema": "0123456789012345",
+        "timestamp": "2022-04-21 13:54:10.91",
+        "agentId": "source_alice",
+        "role": "admin",
+        "capability": "measure"
+}
