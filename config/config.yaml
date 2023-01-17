@@ -1,5 +1,5 @@
 controller:
-  IP: 'localhost'
+  IP: '10.11.200.125'
   port: '5672'
   capability_period: 3600
 agent_capabilities:
