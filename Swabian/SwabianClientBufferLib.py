@@ -76,7 +76,7 @@ def recv_array(socket, flags=0, copy=True, track=False):
 
 if (__name__ == '__main__'):
     
-    IP = "132.163.219.122"#"129.6.168.224"
+    IP = "localhost"
     port = '5555'
     TT = TimeTag(IP, port)        
     
