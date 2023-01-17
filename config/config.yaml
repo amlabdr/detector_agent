@@ -2,5 +2,7 @@ controller:
   IP: 'localhost'
   port: '5672'
   capability_period: 3600
-agent:
-  capability: 'source_control'
+agent_capabilities:
+  capability_1: 'photon_counting_measurement'
+detector:
+  serial: M00819452

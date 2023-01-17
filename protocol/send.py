@@ -4,10 +4,19 @@ import json, logging
 #imports to use AMQP 1.0 communication protocol
 from proton import Message
 from proton.handlers import MessagingHandler
+from proton.reactor import Container
 
-class Send(MessagingHandler):
+class Sender():
+    def __init__(self):
+        super(Sender, self).__init__()
+        
+    def send(self, server, topic, messages):
+        Container(Send_handller(server,topic, messages)).run()
+
+        
+class Send_handller(MessagingHandler):
     def __init__(self, server, topic, messages):
-        super(Send, self).__init__()
+        super(Send_handller, self).__init__()
         self.server = server
         self.topic = topic
         self.confirmed = 0
