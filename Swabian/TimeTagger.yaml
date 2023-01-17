@@ -1,0 +1,68 @@
+sync_rate: 1e7
+trange: 100e3    # large range for rough peak find in ns
+binwidth: 0.1    # binwidth for rough peak in ns
+offset: 0        # artificial data offset in ns
+samplesize: 200  # samples from data to find rough peak
+resolution: 10   # resolution for final coincidences in ps
+coin_window:
+    start: 10
+    stop: 13
+
+int_time: 1 # in sec
+filename: 'test'
+directory: 'C:\\daq\\data\\boxsource\\polEntanglement\\ADVR_Source\\test'
+
+Alice:
+    IP: '129.6.168.224'
+    serial: 1948000S8P
+    
+    number_ch: 8
+    
+    active_ch: [1, 7, 8] 
+    input_delay: [0, 0, 0]
+    threshold: [0.05, 0.1, 0.1]
+    deadtime: [252000, 0,0 ]
+    sync: 8
+    pps: 7
+    chan: 1
+    
+    condFilter:
+        status: True
+        trigger: [1]
+        filtered: [8]
+    
+    HWP: 
+        home: False
+        offset: 0
+        start: -45
+        stop: 135
+        step: 3.75
+        angles: [-22.5, 0, 22.5, 45]
+    
+    QWP: 
+        home: False
+        offset: 0
+        start: -45
+        stop: 135
+        step: 3.75
+        angles: [-22.5, 0, 22.5, 45]
+        
+        
+        
+    histogram: # for histogram or correlation
+        start_ch: 2
+        click_ch: 1
+        resolution: 160
+        bins: 1000
+        sum_start: 268
+        sum_stop: 288
+    
+    histogram2d:
+        start_ch: 2
+        click_ch1: 1
+        click_ch2: 3
+        resolution_ch1: 160
+        resolution_ch2: 160
+        bins_ch1: 1000
+        bins_ch2: 1000
+

@@ -1,0 +1,34 @@
+serial: 1948000S8P
+
+number_ch: 8
+
+active_ch: [1, 7] 
+input_delay: [0, 0, 0]
+threshold: [0.05, 0.1, 0.1]
+deadtime: [252000, 0,0 ]
+
+condFilter:
+    status: False
+    trigger: [1]
+    filtered: [8]
+
+int_time: 1 # in sec
+filename: 'test'
+directory: 'C:\\daq\\pythonScripts\\library\\Swabian'
+
+histogram: # for histogram or correlation
+    start_ch: 2
+    click_ch: 1
+    resolution: 160
+    bins: 1000
+    sum_start: 268
+    sum_stop: 288
+    
+histogram2d:
+    start_ch: 2
+    click_ch1: 1
+    click_ch2: 3
+    resolution_ch1: 160
+    resolution_ch2: 160
+    bins_ch1: 1000
+    bins_ch2: 1000

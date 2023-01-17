@@ -1,0 +1,52 @@
+directory: 'C:\\daq\\data'
+
+Alice:    
+    IP: '129.6.168.224'
+    serial: 2138000XFR
+    #2138000XFR
+    
+
+    number_ch: 8
+    
+    active_ch: [1, 7, 8] 
+    input_delay: [0, 0, 0]
+    threshold: [0.05, 0.1, 0.1]
+    deadtime: [0, 0, 0]
+    sync: 8
+    pps: 7
+    chan: 1
+    
+    condFilter:
+        status: True
+        trigger: [1]
+        filtered: [8]
+        
+        
+    WRS:
+        present: True
+        COM: 21
+        
+        
+Bob:    
+    IP: '129.6.168.224'
+    serial: 1948000S8P
+    #2023000TMY   
+
+    number_ch: 4
+    
+    active_ch: [1, 7] 
+    input_delay: [0, 0, 0]
+    threshold: [0.05, 0.1, 0.1]
+    deadtime: [0, 0, 0]
+    sync: 8
+    pps: 7
+    chan: 1
+    
+    condFilter:
+        status: False
+        trigger: [1]
+        filtered: [8]        
+        
+    WRS:
+        present: True
+        COM: 22
