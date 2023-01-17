@@ -1,7 +1,7 @@
 directory: 'C:\\daq\\data'
 
 Alice:    
-    IP: '132.163.219.122'#'129.6.136.65'
+    IP: 'localhost'
     serial:  1948000S8P
     #2138000XFR
     
