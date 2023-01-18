@@ -2,7 +2,13 @@ controller:
   IP: '10.11.200.125'
   port: '5672'
   capability_period: 3600
+
 agent_capabilities:
   capability_1: 'photon_counting_measurement'
+
 detector:
   serial: M00819452
+
+BufferServer:
+  IP: 'localhost'
+  port: '5555'
