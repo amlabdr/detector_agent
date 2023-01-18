@@ -70,12 +70,13 @@ class Agent():
         
     def run(self,specification,parameters):
         TT = TimeTag(self.BufferServerIP, self.BufferServerPort)
-        result = TT.getCountRate([1, 7])
+        result = TT.getCountRate([1])[0][0]
+        
         print(result)
         print("type of result,:",type(result))
         logging.info("result is {}".format(result))
         TT.close()
-        return ["ok"]
+        return ["ok"] # ["2022-04-21 13:54:10.91",1234]
         
 
     
