@@ -76,13 +76,13 @@ def recv_array(socket, flags=0, copy=True, track=False):
 
 if (__name__ == '__main__'):
     
-    IP = "localhost"
+    IP = "129.6.168.224"
     port = '5555'
     TT = TimeTag(IP, port)        
     
     #cal = TT.getCalibrations()
     
-    print(TT.getCountRate([1, 7]))
+    print(TT.getCountRate([1, 2]))
     
     #pps = cal[1]['pps']
     

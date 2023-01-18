@@ -70,9 +70,10 @@ class Agent():
         
     def run(self,specification,parameters):
         TT = TimeTag(self.BufferServerIP, self.BufferServerPort)
-        result = TT.getCountRate([1])[0][0]
+        result = TT.getCountRate([1])
         
         print(result)
+        print(result[0][0])
         print("type of result,:",type(result))
         logging.info("result is {}".format(result))
         TT.close()

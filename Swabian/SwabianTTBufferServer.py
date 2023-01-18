@@ -71,7 +71,10 @@ class TimeTag():
         print(mes)
         self.TimeTagger = Pyro5.api.Proxy(mes)
         
-        self.tt = self.TimeTagger.createTimeTagger(dicty[party]["serial"])
+        if dicty[party]["serial"] == 'virtual':
+            self.tt = self.TimeTagger.createTimeTaggerVirtual()
+        else:
+            self.tt = self.TimeTagger.createTimeTagger(dicty[party]["serial"])
         self.tt.reset() # Reset all settings to default values
         print('Time Tagger serial:', self.tt.getSerial())
         
@@ -91,7 +94,10 @@ class TimeTag():
             self.tt.setConditionalFilter((dicty[party]["condFilter"]["trigger"]), (dicty[party]["condFilter"]["filtered"]))
             
         if bool(dicty[party]["WRS"]["present"]):
-            self.WRS = WRS_lib.dev('COM'+str(dicty[party]["WRS"]["COM"]))
+            try:
+                self.WRS = WRS_lib.dev('COM'+str(dicty[party]["WRS"]["COM"]))
+            except: 
+                print('WRS not connected')
     
     def getActiveChannels(self):
         return self.activeChannels
@@ -230,6 +236,7 @@ def runBuffer(max_len, party):
 if (__name__ == '__main__'):
     
     
+   
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     #socket.bind("tcp://*:5555")
@@ -249,6 +256,7 @@ if (__name__ == '__main__'):
         socket.bind("tcp://*:5556")
         print('Bob')
     
+    TTlocal = TimeTag("TTServerConfig.yaml", party) # creating a local instance of the time tagger
     
     runThread = 1
     circBufThread = threading.Thread(target = runBuffer, args = (max_len, party))
@@ -308,8 +316,8 @@ if (__name__ == '__main__'):
             buf = (list(itertools.islice(CB, idx1, idx2)))   
             send_array(socket, np.array(buf, dtype = np.uint64), M)
         
-        # simulated conutrates
-        elif message.decode().split(',')[0] == 'countrates':
+        # simulated countrates
+        elif message.decode().split(',')[0] == 'countrates_virtual':
             mess = message.decode().split(',')
             CR = np.empty([1,0])
             for n in range(len(mess)-1):
@@ -317,7 +325,28 @@ if (__name__ == '__main__'):
                 CR = np.append(CR, np.random.poisson((n+1)*1000))
             M    = dict(cal_fac = 0, pps = 0, TAI = '')
             send_array(socket, np.array(CR, dtype = np.uint64), M)
-                
+        
+        elif message.decode().split(',')[0] == 'countrates':
+            mess = message.decode().split(',')
+            channels = []
+            for n in range(len(mess)-1):
+                channels.append(int((re.findall(r'\d+', mess[n+1]))[0]))
+            
+            M    = dict(cal_fac = meta_data[2], pps = int(meta_data[0]), TAI = meta_data[1])
+            #M    = dict(cal_fac = 0, pps = 0, TAI = '')
+            
+            #print(channels)
+            TTlocal.initCounts(channels)
+            CR = (TTlocal.getCounts())
+            print(CR)
+            
+            send_array(socket, np.array(CR, dtype = np.uint64), M)
+        
+  #      initCounts(self, channels = [1, 2]):
+  #      self.rate = self.TimeTagger.Countrate(self.tt, channels)
+  #      time.sleep(1)   
+  #  def getCounts(self):
+  #      return self.rate.getData()
         
         elif message.decode().split(',')[0] == 'end':
             runThread = 0
