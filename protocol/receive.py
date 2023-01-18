@@ -80,6 +80,7 @@ class Specification_Receiver_handller(MessagingHandler):
                     resultValues.append(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-4])
                     resultValues.append(cumulated_seconds)
                     resultValues.append(self.agent.run(specification,parameters))
+                    print([type(x) for x in resultValues])
                     #Agent will send the results to the controller
                     result_msg["timestamp"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-4]
                     result_msg['resultValues'] = [resultValues]
