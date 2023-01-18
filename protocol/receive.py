@@ -1,5 +1,5 @@
 #standards imports
-import json, traceback, logging
+import json, traceback, logging, re, time
 from datetime import datetime
 
 #imports to use AMQP 1.0 communication protocol
@@ -8,6 +8,23 @@ from proton.reactor import Container
 from protocol.send import Sender
 
 sender = Sender()
+
+def when2time(when):
+    match = re.search(r'(now|\d+)\s*\.\.\.\s*(\d+)\s*/\s*(\d+)', when)
+    if match:
+        start_time = match.group(1)
+        if start_time == "now":
+            start_time = datetime.now().timestamp()
+        else:
+            start_time = int(start_time)
+        stop_time = int(match.group(2))
+        period = int(match.group(3))
+    else:
+        raise ValueError("Invalid time string format")
+
+    return start_time, stop_time, period
+
+
 
 class Receiver():
     def __init__(self):
@@ -37,6 +54,9 @@ class Specification_Receiver_handller(MessagingHandler):
             specification = jsonData['specification']
             parameters = jsonData['parameters']
             endpoint = jsonData['endpoint']
+            when = jsonData['when']
+            start_time , stop_time, period = when2time(when)
+            
             logging.info("specification received for {}".format(specification))
             logging.info("Agent will send receipt to the controller for {}".format(specification))
            
@@ -48,18 +68,28 @@ class Specification_Receiver_handller(MessagingHandler):
             topic = event.message.reply_to
             sender.send(self.server,topic, specification_receiptData)
             logging.info("agent will do the {}".format(specification))
-
-            #agent will do the spec
-            resultValues = self.agent.run(specification,parameters)
-            #Agent will send the results to the controller
             result_msg = jsonData.copy()
             result_msg['result'] = result_msg['specification']
-            result_msg["timestamp"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-4]
             del result_msg['specification']
-            result_msg['resultValues'] = resultValues
-            logging.info("Agent will send result {} to the controller".format(result_msg['resultValues']))
-            result_topic = 'topic://'+endpoint+'/results'
-            sender.send(self.server,result_topic, result_msg)
+            #agent will do the spec
+            current_time = time.time()
+            cumulated_seconds = 0
+            while current_time < stop_time:
+                if current_time >= start_time:
+                    resultValues = []
+                    resultValues.append(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-4])
+                    resultValues.append(cumulated_seconds)
+                    resultValues.append(self.agent.run(specification,parameters))
+                    #Agent will send the results to the controller
+                    result_msg["timestamp"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-4]
+                    result_msg['resultValues'] = [resultValues]
+                    logging.info("Agent will send result {} to the controller".format(result_msg['resultValues']))
+                    result_topic = 'topic://'+endpoint+'/results'
+                    sender.send(self.server,result_topic, result_msg)
+                time.sleep(period/1000)
+                cumulated_seconds +=(time.time() - current_time)
+                current_time = time.time()
+
         except Exception:
             traceback.print_exc()
             

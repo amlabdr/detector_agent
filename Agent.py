@@ -2,6 +2,7 @@ import yaml, logging
 import numpy as np
 import matplotlib.pyplot as plt
 import zmq
+from datetime import datetime
 
 class TimeTag():    
     def __init__(self,IP = 'localhost' ,port = '5555'):
@@ -67,17 +68,14 @@ class Agent():
         yf.close()
         self.BufferServerIP = config["BufferServer"]["IP"]
         self.BufferServerPort = config["BufferServer"]["port"]
+        self.channel =  config["BufferServer"]["channel"]
         
     def run(self,specification,parameters):
         TT = TimeTag(self.BufferServerIP, self.BufferServerPort)
-        result = TT.getCountRate([1])
-        
-        print(result)
-        print(result[0][0])
-        print("type of result,:",type(result))
+        result = TT.getCountRate([self.channel][0][0])
         logging.info("result is {}".format(result))
         TT.close()
-        return ["ok"] # ["2022-04-21 13:54:10.91",1234]
+        return result
         
 
     
