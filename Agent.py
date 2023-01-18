@@ -72,7 +72,7 @@ class Agent():
         
     def run(self,specification,parameters):
         TT = TimeTag(self.BufferServerIP, self.BufferServerPort)
-        result = TT.getCountRate([self.channel])[0][0]
+        result = TT.getCountRate([self.channel])[0][0].tolist()
         logging.info("result is {}".format(result))
         TT.close()
         return result
