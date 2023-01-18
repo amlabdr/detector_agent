@@ -78,7 +78,7 @@ class Specification_Receiver_handller(MessagingHandler):
                 if current_time >= start_time:
                     resultValues = []
                     resultValues.append(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-4])
-                    resultValues.append(cumulated_seconds)
+                    resultValues.append(int(cumulated_seconds)*1000)
                     resultValues.append(self.agent.run(specification,parameters))
                     print([type(x) for x in resultValues])
                     #Agent will send the results to the controller
