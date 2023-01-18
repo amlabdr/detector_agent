@@ -104,7 +104,7 @@ class TimeTag():
     
     def initCounts(self, channels = [1, 2]):
         self.rate = self.TimeTagger.Countrate(self.tt, channels)
-        time.sleep(1)   
+        time.sleep(0.1)   
     
     def getCounts(self):
         return self.rate.getData()
