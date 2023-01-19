@@ -75,7 +75,7 @@ class Agent():
         result = TT.getCountRate(self.channels)[0].tolist()
         logging.info("result is {}".format(result))
         TT.close()
-        return result
+        return result[0], result[1]
         
 
     
