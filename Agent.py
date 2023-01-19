@@ -68,11 +68,11 @@ class Agent():
         yf.close()
         self.BufferServerIP = config["BufferServer"]["IP"]
         self.BufferServerPort = config["BufferServer"]["port"]
-        self.channel =  config["BufferServer"]["channel"]
+        self.channels =  config["BufferServer"]["channels"]
         
     def run(self,specification,parameters):
         TT = TimeTag(self.BufferServerIP, self.BufferServerPort)
-        result = TT.getCountRate([self.channel])[0][0].tolist()
+        result = TT.getCountRate(self.channels)[0].tolist()
         logging.info("result is {}".format(result))
         TT.close()
         return result
