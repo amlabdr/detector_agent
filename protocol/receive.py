@@ -49,6 +49,7 @@ class Specification_Receiver_handller(MessagingHandler):
         event.container.create_receiver(conn, self.topic)
         
     def on_message(self, event):
+        print("=====got a msg")
         try:
             jsonData = json.loads(event.message.body)
             logging.info("Analyzer will send receipt to the controller")
