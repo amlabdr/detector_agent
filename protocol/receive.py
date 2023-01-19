@@ -42,12 +42,20 @@ class Specification_Receiver_handller(MessagingHandler):
         self.topic = topic
         self.agent = agent
         logging.info("Agent will start listning for spec in the topic: {}".format(self.topic))
+        self.specification_is_running = False
+        self.stop_specification = False
 
     def on_start(self, event):
         conn = event.container.connect(self.server)
         event.container.create_receiver(conn, self.topic)
         
     def on_message(self, event):
+        if self.specification_is_running:
+            self.stop_specification = True
+        else:
+            self.stop_specification = False
+            self.specification_is_running = True
+
         try:
             jsonData = json.loads(event.message.body)
             logging.info("Analyzer will send receipt to the controller")
@@ -74,7 +82,7 @@ class Specification_Receiver_handller(MessagingHandler):
             #agent will do the spec
             current_time = time.time()
             cumulated_seconds = 0
-            while current_time < stop_time:
+            while current_time < stop_time and not(self.stop_specification):
                 if current_time >= start_time:
                     resultValues = []
                     resultValues.append(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-4])
