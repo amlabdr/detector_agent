@@ -1,7 +1,7 @@
 controller:
   IP: '10.11.200.125'
   port: '5672'
-  capability_period: 3600
+  capability_period: 60
 
 agent_capabilities:
   capability_1: 'photon_counting_measurement'
