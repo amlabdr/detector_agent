@@ -8,16 +8,16 @@ Alice:
 
     number_ch: 8
     
-    active_ch: [1, 7, 8] 
-    input_delay: [0, 0, 0]
-    threshold: [0.05, 0.1, 0.1]
-    deadtime: [0, 0, 0]
+    active_ch: [1, 2, 7, 8] 
+    input_delay: [0, 0, 0, 0]
+    threshold: [0.2, 0.2, 0.1, 0.1]
+    deadtime: [0, 0, 0, 0]
     sync: 8
     pps: 7
     chan: 1
     
     condFilter:
-        status: True
+        status: False
         trigger: [1]
         filtered: [8]
         
