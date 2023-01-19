@@ -105,7 +105,7 @@ class Specification_Receiver_handller(MessagingHandler):
     def on_message(self, event):
         try:
             jsonData = json.loads(event.message.body)
-            logging.info("Analyzer will send receipt to the controller")
+            logging.info("msg received {}".format(jsonData))
             if'specification' in jsonData:
                 thread_process_specification = Thread(target=self.process_specification, args=(event, jsonData))
                 thread_process_specification.start()
