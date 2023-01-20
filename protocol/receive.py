@@ -90,7 +90,7 @@ class Specification_Receiver_handller(MessagingHandler):
             time.sleep(period/1000)
             cumulated_seconds +=(time.time() - current_time)
             current_time = time.time()
-        self.interrupt = False
+        
 
     def process_interrupt(self, event, jsonData):
         logging.info("interruption received")
@@ -107,6 +107,7 @@ class Specification_Receiver_handller(MessagingHandler):
             jsonData = json.loads(event.message.body)
             logging.info("msg received {}".format(jsonData))
             if'specification' in jsonData:
+                self.interrupt= False
                 thread_process_specification = Thread(target=self.process_specification, args=(event, jsonData))
                 thread_process_specification.start()
                 return
